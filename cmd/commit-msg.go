@@ -1,0 +1,51 @@
+package cmd
+
+import (
+	"fmt"
+	"os"
+	"strings"
+
+	"github.com/leodido/go-conventionalcommits"
+	"github.com/leodido/go-conventionalcommits/parser"
+	"github.com/spf13/cobra"
+)
+
+func init() {
+	rootCmd.AddCommand(commitMsgCmd)
+}
+
+func getLastCommitMsg() (string, error) {
+	ret, err := os.ReadFile(".git/COMMIT_EDITMSG")
+	if err != nil {
+		return "", err
+	}
+
+	// remove the last new line
+	str := strings.TrimRight(string(ret), "\n")
+	return str, nil
+}
+
+func commitMsg() error {
+	commitMsg, err := getLastCommitMsg()
+	if err != nil {
+		return err
+	}
+
+	res, err := parser.NewMachine(conventionalcommits.WithTypes(conventionalcommits.TypesConventional)).Parse([]byte(commitMsg))
+	if err != nil {
+		return err
+	}
+	if !res.Ok() {
+		return fmt.Errorf("commit message is wrongly formatted")
+	}
+
+	return nil
+}
+
+var commitMsgCmd = &cobra.Command{
+	Use:   "commit-msg",
+	Short: "Checks if commit message respects conventional commits",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return commitMsg()
+	},
+}
