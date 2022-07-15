@@ -33,7 +33,9 @@ func commitMsg() error {
 
 	res, err := parser.NewMachine(conventionalcommits.WithTypes(conventionalcommits.TypesConventional)).Parse([]byte(commitMsg))
 	if err != nil {
-		return err
+		return fmt.Errorf(`commit-lint failed with: %v
+  allowed types: build, ci, chore, docs, feat, fix, perf, refactor, revert, style, test`,
+			err)
 	}
 	if !res.Ok() {
 		return fmt.Errorf("commit message is wrongly formatted")
