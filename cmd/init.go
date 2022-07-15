@@ -50,11 +50,12 @@ var initCmd = &cobra.Command{
 		}
 
 		for _, githook := range hooks {
-			script := fmt.Sprintf("#!/bin/sh\n%v %v", rootCmd.Use, githook)
+			script := fmt.Sprintf("#!/bin/sh\n%v %v\n", rootCmd.Use, githook)
 			hookFile := path.Join(gitRoot, ".git/hooks", githook)
 			if err := os.WriteFile(hookFile, []byte(script), os.ModePerm); err != nil {
 				return err
 			}
+			fmt.Printf("Installing %v\n", hookFile)
 		}
 
 		return nil
