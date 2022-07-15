@@ -10,8 +10,14 @@ Git hooks with reviewpad :tiger:
 
 Install `tiger` with:
 
-`go install github.com/marcelosousa/tiger@latest`
+```console
+go install github.com/marcelosousa/tiger@latest
+```
 
 Install git hooks in current repository with:
 
-`tiger init`
+```console
+tiger init
+```
+
+You can check the available hooks [here](cmd/init.go).
