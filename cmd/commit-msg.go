@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/leodido/go-conventionalcommits"
-	"github.com/leodido/go-conventionalcommits/parser"
+	"github.com/reviewpad/go-conventionalcommits"
+	"github.com/reviewpad/go-conventionalcommits/parser"
 	"github.com/spf13/cobra"
 )
 
